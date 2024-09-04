@@ -1,0 +1,55 @@
+# Project Descriotion
+My project aims to create a statistical analysis of the spotify data from tidytuesday, which contains various features 
+of songs such as danceability, energy, tempo, and loudness.
+These features provide valuable insights into the audio characteristics of popular music. Using this dataset, we aim to explore 
+relationships between different audio features and uncover patterns in song popularity, 
+genre trends, and listener preferences. The final output will include a "killer graph" that highlights key findings in a visually 
+compelling way, demonstrating how specific audio features contribute to the popularity of songs on the Spotify platform.
+The main object is finding key elements among different songs to find what contributes to the popularity of a song.
+
+# What to find with the "killer graph"
+The "killer graph" for this project aims to reveal how song characteristics correlate with their popularity. 
+Specifically, the goal is to visualize clusters or trends that show which combination of audio 
+features is most likely to produce a hit song.
+For example, a heatmap or scatterplot showing how danceability and energy impact song popularity might offer intriguing 
+insights into modern music trends.
+
+# Retrieving the data
+
+```{r}
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
+head(spotify_songs)
+```
+
+# Verify dimension and variables
+
+```{r}
+variable_num <- length(names(spotify_songs))
+print(paste("There are total of ",variable_num, "variables"))
+```
+
+All the variable names:
+
+```{r}
+names(spotify_songs)
+```
+
+
+```{r}
+n <- nrow(spotify_songs)
+print(paste("There are total of ",n,"observations in the dataset"))
+```
+
+
+
+# Saving the dataset
+
+```{r}
+save(spotify_songs, 
+     file = "/home/rstudio/work/STOR765_Fall2024_Kenny_HW1/RData/spotify.RData ")
+```
+
+
+
+
+
