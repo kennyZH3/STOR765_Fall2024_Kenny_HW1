@@ -1,3 +1,7 @@
+```{r, echo=FALSE, hide=TRUE}
+library('tidyverse')
+```
+
 # Project Descriotion
 My project aims to create a statistical analysis of the spotify data from tidytuesday, which contains various features 
 of songs such as danceability, energy, tempo, and loudness.
@@ -46,7 +50,7 @@ print(paste("There are total of ",n,"observations in the dataset"))
 
 ```{r}
 save(spotify_songs, 
-     file = "/home/rstudio/work/STOR765_Fall2024_Kenny_HW1/RData/spotify.RData ")
+     file = "RData/spotify.RData ")
 ```
 
 
