@@ -1,7 +1,8 @@
-```{r, echo=FALSE, hide=TRUE}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library('tidyverse')
 ```
-
 # Project Descriotion
 My project aims to create a statistical analysis of the spotify data from tidytuesday, which contains various features 
 of songs such as danceability, energy, tempo, and loudness.
