@@ -89,14 +89,15 @@ selected_features <- c("danceability", "energy", "loudness", "speechiness",
 
 for (col in selected_features) {
   p <- ggplot(spotify_songs, aes(x = !!sym(col), y = track_popularity, color = playlist_genre)) +
-    geom_point(alpha = 0.5) +
-    geom_jitter(alpha = 0.5, width = 0.2, height = 0.2)+
+    geom_point(alpha = 0.6) +
+    geom_jitter(alpha = 0.5, width = 0.2, height = 0.2) +
+    geom_smooth(method = "lm", se = F) +
     labs(title = paste("Track Popularity vs", col), x = col, y = "Track Popularity") +
     theme_minimal() +
     theme(legend.position = "bottom") +
     scale_color_brewer(palette = "Set3")
   
-  print(p)
+  suppressMessages(print(p))
   
 }
 
