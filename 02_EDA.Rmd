@@ -1,0 +1,126 @@
+---
+title: "02_EDA"
+output: pdf_document
+date: "2024-09-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gridExtra)
+```
+
+# Section 1: Identify response variable and examine distribution
+
+```{r, echo=FALSE, results='hide'}
+load("RData/spotify.RData ")
+spotify_songs <- spotify_songs %>% mutate(duration_s = duration_ms / 1000)
+head(spotify_songs)
+```
+
+```{r,echo=FALSE, results='hide'}
+names(spotify_songs)
+```
+
+The response variable is "track_popularity".
+
+```{r, echo=FALSE}
+mean_popularity <- mean(spotify_songs$track_popularity, na.rm = TRUE)
+ggplot(data = spotify_songs, aes(x = track_popularity)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  geom_vline(aes(xintercept = mean_popularity), color = "red", linetype = "dashed") +
+  labs(title = "Histogram of Track Popularity", x = "Popularity Values", y = "Frequency") +
+  annotate("text", x = mean_popularity, y = Inf, label = paste("Mean =", round(mean_popularity, 2)),
+           vjust = 2, color = "red", fontface = "bold") +
+  theme_minimal()
+```
+
+
+Many songs have a popularity value of 0 because those songs are uploaded but have no active listeners. If we disregard the songs with small popularity values, the rest are approximately normally distributed as anticipated. The mean popularity values is dragged down because of the amount of songs with a value of 0.
+
+
+
+
+# Section 2
+
+The explanatory variables are: "playlist_genre", "danceability", "energy", "loudness", "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo", and "duration_ms".
+
+
+```{r, echo=FALSE, warning=FALSE}
+features <- c("danceability", "energy", "loudness", "speechiness",
+              "acousticness", "instrumentalness", "liveness", "valence", 
+              "tempo", "duration_s")
+plots <- list()
+
+for (feature in features) {
+  binwidth_value <- (max(spotify_songs[[feature]]) - min(spotify_songs[[feature]])) / 30
+  p <- ggplot(spotify_songs, aes_string(x = feature)) +
+    geom_histogram(binwidth = binwidth_value, fill = "blue", color = "black", alpha = 0.6) +
+    labs(title = feature, x = feature, y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  plots[[feature]] <- p
+}
+
+p_genre <- ggplot(spotify_songs, aes(x = playlist_genre)) +
+  geom_bar(fill = "blue", color = "black", alpha = 0.6) +
+  labs(title = "playlist_genre", x = "Genre", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+
+plots[["playlist_genre"]] <- p_genre
+
+grid.arrange(grobs = plots, nrow = 3, ncol = 4)
+
+```
+
+The number of songs in each genre are similar. The distribution of valence, tempo and duration are approximately normal. However, tempo has one spike which mean large number of songs have that same tempo. Speechiness, acousticness, intrumentalness, and liveness are right skewed as many of these have very small values close to 0. Dancibility, energy, and loudness are left skewed.
+
+
+
+# Section 3:
+
+Our goal of this project is determine how specific audio features contribute to the popularity of songs.
+
+```{r, echo=FALSE}
+selected_features <- c("danceability", "energy", "loudness", "speechiness", 
+                  "acousticness", "instrumentalness", "liveness", "valence", 
+                  "tempo", "duration_ms")
+
+for (col in selected_features) {
+  p <- ggplot(spotify_songs, aes(x = !!sym(col), y = track_popularity, color = playlist_genre)) +
+    geom_point(alpha = 0.5) +
+    geom_jitter(alpha = 0.5, width = 0.2, height = 0.2)+
+    labs(title = paste("Track Popularity vs", col), x = col, y = "Track Popularity") +
+    theme_minimal() +
+    theme(legend.position = "bottom") +
+    scale_color_brewer(palette = "Set3")
+  
+  print(p)
+  
+}
+
+
+```
+
+
+
+```{r, echo=FALSE}
+save(spotify_songs, 
+     file = "RData/spotify_s.RData")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
