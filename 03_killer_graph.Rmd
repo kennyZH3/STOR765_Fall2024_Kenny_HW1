@@ -16,8 +16,7 @@ This project aims to create a statistical analysis of the spotify data from tidy
 of songs such as danceability, energy, tempo, and loudness.
 These features provide valuable insights into the audio characteristics of popular music. Using this dataset, we aim to explore 
 relationships between different audio features and uncover patterns in song popularity, 
-genre trends, and listener preferences. The final output will include a "killer graph" that highlights key findings in a visually 
-compelling way, demonstrating how specific audio features contribute to the popularity of songs on the Spotify platform.
+genre trends, and listener preferences. The final output inclues a "killer graph" that highlights key findings in how tempo contribute to the popularity of songs on the Spotify platform.
 The main object is finding key elements among different songs to find what contributes to the popularity of a song.
 
 ```{r, echo=FALSE, results='hide'}
