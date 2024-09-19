@@ -1,0 +1,58 @@
+---
+title: "03_killer_graph.Rmd"
+output: pdf_document
+date: "2024-09-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gridExtra)
+```
+
+
+
+This project aims to create a statistical analysis of the spotify data from tidytuesday, which contains various features 
+of songs such as danceability, energy, tempo, and loudness.
+These features provide valuable insights into the audio characteristics of popular music. Using this dataset, we aim to explore 
+relationships between different audio features and uncover patterns in song popularity, 
+genre trends, and listener preferences. The final output will include a "killer graph" that highlights key findings in a visually 
+compelling way, demonstrating how specific audio features contribute to the popularity of songs on the Spotify platform.
+The main object is finding key elements among different songs to find what contributes to the popularity of a song.
+
+```{r, echo=FALSE, results='hide'}
+load("RData/spotify.RData ")
+spotify_songs <- spotify_songs %>% mutate(duration_s = duration_ms / 1000)
+head(spotify_songs)
+```
+
+
+
+
+
+```{r, echo=FALSE}
+selected_features <- c("tempo")
+
+for (col in selected_features) {
+  p <- ggplot(spotify_songs, aes(x = !!sym(col), y = track_popularity, color = playlist_genre)) +
+    geom_point(alpha = 0.6) +
+    geom_jitter(alpha = 0.5, width = 0.2, height = 0.2) +
+    geom_smooth(method = "lm", se = F) +
+    labs(title = paste("Track Popularity vs", col), x = col, y = "Track Popularity",
+         caption = "Figure 1: The tempo for each genre of music vs. the popularity values") +
+    theme_minimal() +
+    theme(legend.position = "bottom") +
+    scale_color_brewer(palette = "Set3")
+  
+  suppressMessages(print(p))
+  
+}
+
+
+```
+
+
+# Discussion
+
+The hypothesis that I can test is that whether the tempo affects the popularity and what other features of the music have more or less effects.
+
