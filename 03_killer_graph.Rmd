@@ -10,7 +10,7 @@ library(tidyverse)
 library(gridExtra)
 ```
 
-
+# Introduction
 
 This project aims to create a statistical analysis of the spotify data from tidytuesday, which contains various features 
 of songs such as danceability, energy, tempo, and loudness.
@@ -26,7 +26,7 @@ head(spotify_songs)
 ```
 
 
-
+# Killer Graph
 
 
 ```{r, echo=FALSE}
@@ -37,8 +37,7 @@ for (col in selected_features) {
     geom_point(alpha = 0.6) +
     geom_jitter(alpha = 0.5, width = 0.2, height = 0.2) +
     geom_smooth(method = "lm", se = F) +
-    labs(title = paste("Track Popularity vs", col), x = col, y = "Track Popularity",
-         caption = "Figure 1: The tempo for each genre of music vs. the popularity values") +
+    labs(title = paste("Track Popularity vs", col), x = col, y = "Track Popularity") +
     theme_minimal() +
     theme(legend.position = "bottom") +
     scale_color_brewer(palette = "Set3")
@@ -49,6 +48,8 @@ for (col in selected_features) {
 
 
 ```
+
+Figure 1: The x-axis is the tempo for music, the y-axis is the populartiy values.The tempo for each genre of music vs. the popularity values. As the tempo increases, popularity value generally increases. However, it is the completely opposite for EDM music.
 
 
 # Discussion
